@@ -160,6 +160,6 @@
 }
 
 .details_container{position: relative;  }
-.details_content{position: relative; visibility:hidden; height:0; float: left;}
+.details_content{position: relative; display: none; float: left;}
 
 .bx-viewport{background: #ddd;}
