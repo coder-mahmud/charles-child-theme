@@ -160,6 +160,12 @@
 }
 
 .details_container{position: relative;  }
-.details_content{position: relative; display: none; float: left;}
+.details_content{position: relative; visibility: hidden;height: 0; float: left; opacity: 0;
+    -webkit-transition:all 0.5s ease-in; 
+    transition: all 0.5s ease-in;
+}
 
 .bx-viewport{background: #ddd;}
+
+.details_content.show{visibility: visible; height: auto; opacity: 1}
+.mfp-wrap{z-index: 99999999}
