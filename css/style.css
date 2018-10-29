@@ -160,7 +160,7 @@
 }
 
 .details_container{position: relative;  }
-.details_content{position: relative; visibility: hidden;height: 0; float: left; opacity: 0;
+.details_content{position: relative; visibility: hidden;height: 0; opacity: 0;
     -webkit-transition:all 0.5s ease-in; 
     transition: all 0.5s ease-in;
 }
@@ -169,3 +169,12 @@
 
 .details_content.show{visibility: visible; height: auto; opacity: 1}
 .mfp-wrap{z-index: 99999999}
+
+.mfp-figure button{
+    top: 23px !important;
+    font-size: 45px !important;
+    padding: 10px !important;
+    height: 50px !important;
+    cursor: pointer !important;
+
+}

@@ -9,29 +9,21 @@ jQuery(document).ready(function($){
 
     	$(this).parent().find('.details_content').addClass('show');
     	//$('.slider').bxSlider();
+    	$(this).parent().find('.see_more_part').hide();
     })
 	
 	$('.hide_this').click(function(){
 		$(this).parent().removeClass('show');
+		$(this).parent().parent().find('.see_more_part').show();
 	})
 
 	$('.slider').bxSlider();
 	
-	$('.popup-gallery').magnificPopup({
-		delegate: 'a',
+	$('.image-popup-fit-width').magnificPopup({
 		type: 'image',
-		tLoading: 'Loading image #%curr%...',
-		mainClass: 'mfp-img-mobile',
-		gallery: {
-			enabled: true,
-			navigateByImgClick: true,
-			preload: [0,1] // Will preload 0 - before current, and 1 after the current image
-		},
+		closeOnContentClick: true,
 		image: {
-			tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-			titleSrc: function(item) {
-				return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';
-			}
+			verticalFit: false
 		}
 	});
 
