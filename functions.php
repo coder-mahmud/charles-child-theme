@@ -149,13 +149,21 @@ ob_start(); ?>
         endif;
         ?>
  
-                <div class="mix row <?php echo $item_classes ?>" >
+                <div class="mix row single_item <?php echo $item_classes ?>" >
                 	
-                	<?php the_title(); ?>
+                	<div class="col-md-6">
+                		<?php the_post_thumbnail(); ?>
+                		
+                	</div>
+                	<div class="col-md-6">
+                		<?php the_content(); ?>
+                	</div>
+                	
+                	<div class="col-md-12">
 
 
 	                <div class="details_container">
-		                 <button class="see_more_part" >See more on this item</button>
+		                 <button class="see_more_part" >See more of this Portfolio</button>
 		                <div class="details_content">
 		                	<div class="hide_this">X</div>
 
@@ -191,6 +199,11 @@ ob_start(); ?>
 
 		                </div>                   	
 	                </div>
+                		
+                	</div>
+
+
+
 
 
 

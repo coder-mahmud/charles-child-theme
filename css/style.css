@@ -143,6 +143,8 @@
 .mix_button{
     background: none;
     color:#fff;
+    margin:0 8px;
+    border:2px solid #aaa;
 }
 
 .mix{
@@ -159,7 +161,7 @@
 
 }
 
-.details_container{position: relative;  }
+.details_container{position: relative; border-bottom:2px solid #aaa; padding-bottom: 20px; }
 .details_content{position: relative; visibility: hidden;height: 0; opacity: 0;
     -webkit-transition:all 0.5s ease-in; 
     transition: all 0.5s ease-in;
@@ -178,3 +180,7 @@
     cursor: pointer !important;
 
 }
+
+img{max-width: 100%; height:auto;}
+.single_item{ padding-bottom: 20px;}
+.see_more_part{background: #E5C772; color:#000; margin-top: 15px;}
