@@ -190,7 +190,7 @@ ob_start(); ?>
 											    	
 
 													<a class="image-popup-fit-width" href="<?php echo $image; ?>" title="">
-														<img src="<?php echo $image; ?>" width="75" height="75">
+														<img src="<?php echo $image; ?>" width="200" height="auto">
 													</a>
 
 
