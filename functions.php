@@ -155,6 +155,7 @@ ob_start(); ?>
                 		<?php the_post_thumbnail(); ?>
                 		
                 	</div>
+
                 	<div class="col-md-6">
                 		<?php the_content(); ?>
                 	</div>
@@ -162,43 +163,70 @@ ob_start(); ?>
                 	<div class="col-md-12">
 
 
-	                <div class="details_container">
-		                 <button class="see_more_part" >See more of this Portfolio</button>
-		                <div class="details_content">
-		                	<div class="hide_this">X</div>
+		                <div class="details_container">
+			                 <button class="see_more_part" >See more of this Portfolio</button>
+			                <div class="details_content">
+			                	<div class="hide_this">X</div>
 
-								<div class="slider">
-								    <div>
-								    	
+									<div class="slider">
 
-										<a class="image-popup-fit-width" href="http://farm9.staticflickr.com/8379/8588290361_ecf8c27021_b.jpg" title="">
-											<img src="http://farm9.staticflickr.com/8379/8588290361_ecf8c27021_s.jpg" width="75" height="75">
-										</a>
+										<?php
 
+										// check if the repeater field has rows of data
+										if( have_rows('slider_image') ):
 
-								    </div>
+										 	// loop through the rows of data
+										    while ( have_rows('slider_image') ) : the_row();
 
-								    <div>
-								    	
+										        // display a sub field value
 
-										<a class="image-popup-fit-width" href="http://farm9.staticflickr.com/8379/8588290361_ecf8c27021_b.jpg" title="">
-											<img src="http://farm9.staticflickr.com/8379/8588290361_ecf8c27021_s.jpg" width="75" height="75">
-										</a>
+										        $image = get_sub_field('small_image');
+										        $image = $image['url'];
+										        //print_r($image);
 
-								    	
-								    </div>
-								</div>
+										        ?>
 
-			                	<div class="text_description">	                		
+											    <div>
+											    	
 
-			                	</div>
-
+													<a class="image-popup-fit-width" href="<?php echo $image; ?>" title="">
+														<img src="<?php echo $image; ?>" width="75" height="75">
+													</a>
 
 
+											    </div>
 
 
-		                </div>                   	
-	                </div>
+
+										        <?php
+
+
+
+										    endwhile;
+
+										else :
+
+										    // no rows found
+
+										endif;
+
+										?>
+
+
+
+
+									</div>
+
+				                	<div class="text_description">	                		
+
+				                	</div>
+
+
+
+
+
+			                </div>                   	
+		                </div>
                 		
                 	</div>
 

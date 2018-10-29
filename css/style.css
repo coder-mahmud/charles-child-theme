@@ -170,7 +170,7 @@
 .bx-viewport{background: #ddd;}
 
 .details_content.show{visibility: visible; height: auto; opacity: 1}
-.mfp-wrap{z-index: 99999999}
+.mfp-wrap{z-index: 99999999 !important}
 
 .mfp-figure button{
     top: 23px !important;
@@ -184,3 +184,38 @@
 img{max-width: 100%; height:auto;}
 .single_item{ padding-bottom: 20px;}
 .see_more_part{background: #E5C772; color:#000; margin-top: 15px;}
+
+
+/* overlay at start */
+.mfp-fade.mfp-bg {
+  opacity: 0;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+/* overlay animate in */
+.mfp-fade.mfp-bg.mfp-ready {
+  opacity: 0.8;
+}
+/* overlay animate out */
+.mfp-fade.mfp-bg.mfp-removing {
+  opacity: 0;
+}
+
+/* content at start */
+.mfp-fade.mfp-wrap .mfp-content {
+  opacity: 0;
+
+  -webkit-transition: all 0.15s ease-out;
+  -moz-transition: all 0.15s ease-out;
+  transition: all 0.15s ease-out;
+}
+/* content animate it */
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content {
+  opacity: 1;
+}
+/* content animate out */
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content {
+  opacity: 0;
+}
