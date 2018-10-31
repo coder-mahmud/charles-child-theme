@@ -94,9 +94,9 @@ function portfolio_shortcode($atts){
 ?>        
 
          <div class="controls">
-            <button type="button" class="mix_button" data-filter="all">All</button>
+            <button type="button" class="mix_button all_items" data-filter="all">All</button>
             <?php foreach($portfolio_taxs as $portfolio_tax_slug => $portfolio_tax_name): ?>
-            	<button type="button"  class="mix_button" data-filter=".<?php echo $portfolio_tax_slug; ?>"><?php echo $portfolio_tax_name; ?></button>
+            	<button type="button"  class="mix_button individual_items" data-filter=".<?php echo $portfolio_tax_slug; ?>"><?php echo $portfolio_tax_name; ?></button>
             <?php endforeach; ?>
         </div>
 
@@ -107,53 +107,52 @@ function portfolio_shortcode($atts){
  
 <?php
 
- /*
-    $list = '<div class="mix_container">';
-    while($q->have_posts()) : $q->the_post();
-        $idd = get_the_ID();
-        //Get Texanmy class        
-        $item_classes = '';
-        $item_cats = get_the_terms($post->ID, 'portfolio_category');
-        if($item_cats):
-        foreach($item_cats as $item_cat) {
-            $item_classes .= $item_cat->slug . ' ';
-        }
-        endif;
-             
-        $single_link = 
-        $list .= '    
- 
-                <div class="mix '.$item_classes.'" >'.get_the_title().'</div>        
-        ';        
-    endwhile;
-    $list.= '</div>';
-    wp_reset_query();
-    return $list;
-*/
 
 ob_start(); ?>
 
 
 <div class="mix_container">
 
-	<?php 
+	<?php
+
+
+
     while($q->have_posts()) : $q->the_post();
         $idd = get_the_ID();
+        $term = get_field('portfolio_category');
         //Get Texanmy class        
         $item_classes = '';
+        $item_images =array();
         $item_cats = get_the_terms($post->ID, 'portfolio_category');
         if($item_cats):
         foreach($item_cats as $item_cat) {
             $item_classes .= $item_cat->slug . ' ';
+            $item_images[] = get_field('image', $item_cat);
         }
         endif;
-        ?>
- 
-                <div class="mix row single_item <?php echo $item_classes ?>" >
+
+        ?>			
+
+
+				
+
+                <div class="mix row single_item view_for_individual <?php echo $item_classes ?>" >
                 	
                 	<div class="col-md-6">
-                		<?php the_post_thumbnail(); ?>
+                        <?php
+                            $cat = get_the_terms($post->ID, 'portfolio_category');
+                            $term_id = $cat[0] -> term_id;
+                            $term = get_term( $term_id );
+                            $attachment_id = get_field( 'author_image', $term );
+                            //print_r($cat);
+                            //print_r($term_id);
+                            //print_r($term);
+                            print_r($attachment_id);
+                        ?>
                 		
+                		<?php //print_r($item_images); ?>
+                		<?php //echo $term->name; ?>
+                		<?php the_post_thumbnail(); ?>	
                 	</div>
 
                 	<div class="col-md-6">
@@ -228,7 +227,7 @@ ob_start(); ?>
 			                </div>                   	
 		                </div>
                 		
-                	</div>
+                    </div>
 
 
 
@@ -252,7 +251,9 @@ ob_start(); ?>
 </div>
 
 
-<?php	
+<?php
+
+	
 return ob_get_clean();
 
 

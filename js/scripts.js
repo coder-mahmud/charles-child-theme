@@ -19,6 +19,8 @@ jQuery(document).ready(function($){
 
 	$('.slider').bxSlider();
 	
+
+	//Magnific popup
 	$('.image-popup-fit-width').magnificPopup({
 		  type: 'image',
 		  mainClass: 'mfp-with-zoom', // this class is for CSS animation below
@@ -39,11 +41,6 @@ jQuery(document).ready(function($){
 		    }
 		  }
 	});
-
-
-
-
-
 
 
 	
