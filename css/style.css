@@ -222,3 +222,13 @@ img{max-width: 100%; height:auto;}
 }
 
 .image-popup-fit-width img{display: block; margin: 0 auto;}
+
+
+.check_result{
+
+    color: #000;
+    background: #ddd;
+    padding: 10px 0;
+    font-size: 25px;
+
+}

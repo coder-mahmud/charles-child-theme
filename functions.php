@@ -130,26 +130,116 @@ ob_start(); ?>
             $item_images[] = get_field('image', $item_cat);
         }
         endif;
+        endwhile;		
 
-        ?>			
-
-
+    ?>
 				
+
+
+
+
+
+    <?php
+    $all_taxos = array();
+    while($q->have_posts()) : $q->the_post();
+        $idd = get_the_ID();
+        $term = get_field('portfolio_category');
+        //Get Texanmy class        
+        $item_classes = '';
+        $item_images =array();
+        $item_cats = get_the_terms($post->ID, 'portfolio_category');
+        if($item_cats):
+        foreach($item_cats as $item_cat) {
+            $item_classes .= $item_cat->slug . ' ';
+            $item_images[] = get_field('image', $item_cat);
+        }
+        endif;
+        ?>
+
+
+        <?php
+            
+            $cat = get_the_terms($post->ID, 'portfolio_category');
+            $term_id = $cat[0] -> term_id;
+            $term = get_term( $term_id );
+            $attachment_id = get_field( 'author_image', $term );
+            //print_r($cat);
+            //print_r($term_id);
+            //print_r($term);
+            //print_r($attachment_id);
+            foreach($cat as $single_cat){
+                $all_taxos[] = $single_cat -> term_id;
+                //print_r($single_cat);
+                //echo "eee";
+            }
+            
+        ?>
+
+
+
+    <?php   
+        endwhile;
+
+
+    ?>
+
+        <div class="check_result row">
+            <div class="col-md-12">
+                
+                <?php
+                    $term_obj = array();
+                    //print_r( array_unique($all_taxos));
+                    $all_taxos = array_unique($all_taxos);
+                    foreach($all_taxos as $single_taxo){
+                       $term =  get_term( $single_taxo, 'portfolio_category' );
+                       $name = $term->name;
+                       $attachment_image = get_field( 'author_image', $term )[sizes][large];
+                       //$name = get_field( 'author_image', $term );
+                       //print_r($attachment_image);
+                       //print_r($name);
+                       ?>
+
+                        <li><?php echo $name?></li>
+                        <li><?php echo $attachment_image?></li>
+
+
+                       <?php
+
+                    }
+
+                    //print_r($term_obj);
+
+                ?>
+            </div>
+            
+        </div>        
+
+
+
+    <?php
+
+    while($q->have_posts()) : $q->the_post();
+        $idd = get_the_ID();
+        $term = get_field('portfolio_category');
+        //Get Texanmy class        
+        $item_classes = '';
+        $item_images =array();
+        $item_cats = get_the_terms($post->ID, 'portfolio_category');
+        if($item_cats):
+        foreach($item_cats as $item_cat) {
+            $item_classes .= $item_cat->slug . ' ';
+            $item_images[] = get_field('image', $item_cat);
+        }
+        endif;
+    
+
+    ?>
+        
+
 
                 <div class="mix row single_item view_for_individual <?php echo $item_classes ?>" >
                 	
                 	<div class="col-md-6">
-                        <?php
-                            $cat = get_the_terms($post->ID, 'portfolio_category');
-                            $term_id = $cat[0] -> term_id;
-                            $term = get_term( $term_id );
-                            $attachment_id = get_field( 'author_image', $term );
-                            //print_r($cat);
-                            //print_r($term_id);
-                            //print_r($term);
-                            print_r($attachment_id);
-                        ?>
-                		
                 		<?php //print_r($item_images); ?>
                 		<?php //echo $term->name; ?>
                 		<?php the_post_thumbnail(); ?>	
