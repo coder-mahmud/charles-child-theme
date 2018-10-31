@@ -142,22 +142,8 @@ ob_start(); ?>
     <?php
     $all_taxos = array();
     while($q->have_posts()) : $q->the_post();
-        $idd = get_the_ID();
-        $term = get_field('portfolio_category');
-        //Get Texanmy class        
-        $item_classes = '';
-        $item_images =array();
-        $item_cats = get_the_terms($post->ID, 'portfolio_category');
-        if($item_cats):
-        foreach($item_cats as $item_cat) {
-            $item_classes .= $item_cat->slug . ' ';
-            $item_images[] = get_field('image', $item_cat);
-        }
-        endif;
-        ?>
 
 
-        <?php
             
             $cat = get_the_terms($post->ID, 'portfolio_category');
             $term_id = $cat[0] -> term_id;
@@ -173,7 +159,7 @@ ob_start(); ?>
                 //echo "eee";
             }
             
-        ?>
+    ?>
 
 
 
