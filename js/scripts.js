@@ -1,5 +1,15 @@
 jQuery(document).ready(function($){
 
+	var slider = $('.bxslider').bxSlider();
+
+	$('#exampleModal').on('shown.bs.modal', function (e) {
+	        slider.reloadSlider();
+	});
+
+
+
+/*
+
     var containerEl = document.querySelector('.mix_container');
     var mixer = mixitup(containerEl);
 
@@ -18,6 +28,7 @@ jQuery(document).ready(function($){
 	})
 
 	$('.slider').bxSlider();
+	
 	
 
 	//Magnific popup
@@ -42,7 +53,7 @@ jQuery(document).ready(function($){
 		  }
 	});
 
-
+*/
 	
 	console.log('working');
 

@@ -134,49 +134,111 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 					
 
 					
-					<div class=" col-md-12">
+					
 							<?php
 							global $post;
 							$args = array( 'posts_per_page' => -1, 'post_type'=> 'portfolio');
 							$myposts = get_posts( $args );
 							foreach( $myposts as $post ) : setup_postdata($post); ?>
-								<?php 
-									$galleries =  get_field('choose_gallery_for_portfolio');
-								?>	
-							   <li>
-									<?php the_title(); ?>
+									
+							   <div class=" col-md-3">
+							   		<div class="short_view">
+								   		<?php the_post_thumbnail(); ?>
+										<?php the_title(); ?>							   			
+							   		</div>
 
-									<?php
-							        	foreach($galleries as $gallery) { ?>
-							            	<?php
+						
+									<div class="full_view">
+										<div class="description_part">
+											<?php the_post_thumbnail(); ?>
+											<?php the_content(); ?>
+										</div>
 
-							            		$gallery_id = $gallery->ID;
-							            		//$images = get_field('gallery_images', $gallery_id);
+										<div class="slider_area_part">
+
+											<?php 
+												$galleries =  get_field('choose_gallery_for_portfolio');
+											?>
+
+											<?php
+								        		foreach($galleries as $gallery) { ?>
+								            	<?php
+
+								            		$gallery_id = $gallery->ID;
+								            		//print_r($gallery);
+								            		$featured_img_url = get_the_post_thumbnail_url($gallery_id,'full');
+								            	?>
+
+
+
+
+
+											<!-- Button trigger modal -->
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+											  <img src="<?php echo $featured_img_url; ?>" alt="">
+											</button>
+
+											<!-- Modal -->
+											<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											  <div class="modal-dialog" role="document">
+											    <div class="modal-content">
+											      <div class="modal-header">
+											        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											          <span aria-hidden="true">&times;</span>
+											        </button>
+											      </div>
+											      <div class="modal-body">
+
+
+
+													<div class="bxslider">
+
+
+														<?php 
+														if( get_field('gallery_images', $gallery_id) )
+														{
+														   
+
+														    while( the_repeater_field('gallery_images', $gallery_id) )
+														    {
+														    ?>
+														    
+														    <div>
+														    	<img src="<?php echo  get_sub_field('image')['url']; ?>" alt="">
+														    </div>    
+														       
+														   <?php  }
+
+														    
+														}
+									           
+
+									            	?>
 												
-												if( get_field('gallery_images', $gallery_id) )
-												{
-												   
+									          		<?php } ?>
 
-												    while( the_repeater_field('gallery_images', $gallery_id) )
-												    {
-												        
-												        echo "<li>".(get_sub_field('image')['url'])."</li1>";
-												    }
 
-												    
-												}
-							           
+													</div>
+											      </div>
 
-							            	?>
+											    </div>
+											  </div>
+											</div>
+
+									
+
+										</div>
+
+
 										
-							          	<?php } ?>
+
+									</div>
 
 
-									<?php //print_r($galleries[0] -> ID ) ; ?>
-							   </li>
+							   </div>
 									
 							<?php endforeach; ?>
-					</div>	
 					
 			
 					
