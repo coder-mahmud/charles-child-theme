@@ -37,6 +37,165 @@ function cwp_fc_scripts(){
 
 add_action('wp_enqueue_scripts','cwp_fc_scripts');
 
+// Theme supports
+add_theme_support( 'post-thumbnails', array( 'post', 'portfolio','portfolio_gallery' ) );
+
+
+
+
+
+// New portfolio action
+
+
+function portfolio_custom_post() {
+  // Portfolio Post type
+  register_post_type('portfolio', array(
+
+    'supports' => array('title', 'editor','thumbnail'),
+    'rewrite' => array('slug' => 'programs'),
+    'has_archive' => true,
+    'public' => true,
+    'labels' => array(
+      'name' => 'Projects',
+      'add_new_item' => 'Add New Portfolio',
+      'edit_item' => 'Edit Portfolio',
+      'all_items' => 'All Portfolios',
+      'singular_name' => 'Portfolio',
+      'add_new' => 'Add New Portfolio',
+    ),
+    'menu_icon' => 'dashicons-portfolio'
+  ));
+	
+
+  register_post_type('portfolio_gallery', array(
+
+    'supports' => array('title', 'editor','thumbnail'),
+    'rewrite' => array('slug' => 'portfolio-gallery'),
+    'has_archive' => true,
+    'public' => true,
+    'labels' => array(
+      'name' => 'Portfolio Gallery',
+      'add_new_item' => 'Add New Gallery',
+      'edit_item' => 'Edit Gallery',
+      'all_items' => 'All Gallerys',
+      'singular_name' => 'Gallery',
+      'add_new' => 'Add New Gallery',
+    ),
+    'menu_icon' => 'dashicons-format-gallery'
+  ));
+	
+
+}
+
+add_action( 'init', 'portfolio_custom_post' );
+
+// Taxonomy Support for Portfolio
+
+function portfolio_taxonomy() {
+	register_taxonomy(
+		'portfolio-cat',
+		'portfolio',
+		array(
+			'hierarchical'          => true,
+			'label'                         => 'Portfolio Category',  //Display name
+			'query_var'             => true,
+			'rewrite'                       => array(
+				'slug'                  => 'portfolio-category', // This controls the base slug that will display before each term
+				'with_front'    => true // Don't display the category base before
+				),
+			'show_admin_column' => TRUE
+			
+			)
+	);
+}
+
+add_action( 'init', 'portfolio_taxonomy'); 
+
+
+
+
+
+
+
+
+
+
+
+
+//Shortcode 
+function portfolio_shortcodes( $atts, $content = null  ) {
+	extract( shortcode_atts( array(
+		'location' => '',
+	), $atts ) ); ob_start(); ?>
+	
+		<div class="featured_properties_area">
+			<div class="container">
+				<div class="row">
+					
+
+					
+					<div class=" col-md-12">
+							<?php
+							global $post;
+							$args = array( 'posts_per_page' => -1, 'post_type'=> 'portfolio');
+							$myposts = get_posts( $args );
+							foreach( $myposts as $post ) : setup_postdata($post); ?>
+								<?php 
+									$galleries =  get_field('choose_gallery_for_portfolio');
+								?>	
+							   <li>
+									<?php the_title(); ?>
+
+									<?php
+							        	foreach($galleries as $gallery) { ?>
+							            	<?php
+
+							            		$gallery_id = $gallery->ID;
+							            		//$images = get_field('gallery_images', $gallery_id);
+												
+												if( get_field('gallery_images', $gallery_id) )
+												{
+												   
+
+												    while( the_repeater_field('gallery_images', $gallery_id) )
+												    {
+												        
+												        echo "<li>".(get_sub_field('image')['url'])."</li1>";
+												    }
+
+												    
+												}
+							           
+
+							            	?>
+										
+							          	<?php } ?>
+
+
+									<?php //print_r($galleries[0] -> ID ) ; ?>
+							   </li>
+									
+							<?php endforeach; ?>
+					</div>	
+					
+			
+					
+					
+				</div>				
+				
+			</div>
+		</div>
+		
+	
+<?php	
+return ob_get_clean();
+}	
+add_shortcode('portfolios', 'portfolio_shortcodes');
+
+
+
+
+//Old portfolio codes 
 // Taxonomy support for Portfolio custom post types
  
 function wp_tutorials_post_taxonomy() {
@@ -179,7 +338,7 @@ ob_start(); ?>
                     foreach($all_taxos as $single_taxo){
                        $term =  get_term( $single_taxo, 'portfolio_category' );
                        $name = $term->name;
-                       $attachment_image = get_field( 'author_image', $term )[sizes][large];
+                       $attachment_image = get_field( 'author_image', $term )['sizes']['large'];
                        //$name = get_field( 'author_image', $term );
                        //print_r($attachment_image);
                        //print_r($name);
@@ -335,3 +494,5 @@ return ob_get_clean();
 
 }
 add_shortcode('portfolio_code', 'portfolio_shortcode');
+
+
