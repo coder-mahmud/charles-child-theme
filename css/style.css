@@ -202,7 +202,7 @@ img{max-width: 100%; height:auto;}
 .mfp-with-zoom.mfp-bg {
   opacity: 0;
   -webkit-backface-visibility: hidden;
-  /* ideally, transition speed should match zoom duration */
+
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
@@ -235,3 +235,5 @@ img{max-width: 100%; height:auto;}
 
 .modal{z-index: 99999 !important}
 .bxslider > div{color:#000;}
+.slider_area_part, .full_view {overflow: hidden; display: block; clear:both;}
+

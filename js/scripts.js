@@ -1,10 +1,61 @@
 jQuery(document).ready(function($){
 
-	var slider = $('.bxslider').bxSlider();
+				    var containerEl = document.querySelector('.mix_container');
+				    var mixer = mixitup(containerEl);
 
-	$('#exampleModal').on('shown.bs.modal', function (e) {
-	        slider.reloadSlider();
-	});
+
+
+	//var slider = $('.bxslider').bxSlider();
+/*
+		var sliderCount = 1;
+	    $('.modal-body').each(function () {
+	    	
+
+			$('#exampleModal-'+ sliderCount).on('shown.bs.modal', function (e) {
+				
+				
+				$('.bxslider-'+ sliderCount).bxSlider();
+				
+
+
+			});
+			console.log(sliderCount);
+			sliderCount++;
+			
+			
+	        
+	        
+	    });
+
+
+
+/*
+	    	
+
+			$('#exampleModal-1').on('shown.bs.modal', function (e) {
+				
+				
+				$('.bxslider-1').bxSlider();
+
+			});
+
+
+	    	
+
+			$('#exampleModal-2').on('shown.bs.modal', function (e) {
+				
+				
+				$('.bxslider-2').bxSlider();
+
+			});
+
+
+*/
+
+
+
+
+
 
 
 

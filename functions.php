@@ -25,8 +25,8 @@ function cwp_fc_scripts(){
   wp_enqueue_style('mignify-style', get_stylesheet_directory_uri().'/css/magnific-popup.css');
 
 
-  wp_enqueue_script('mixitup-script', get_stylesheet_directory_uri() .'/js/mixitup.min.js', array('jquery'),'', true);
-  wp_enqueue_script('bxslider-script', 'https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js', array('jquery'),'', true);
+  wp_enqueue_script('mixitup-script', get_stylesheet_directory_uri() .'/js/mixitup.min.js', array('jquery'),'', false);
+  wp_enqueue_script('bxslider-script', 'https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js', array('jquery'),'', false);
   wp_enqueue_script('magnify-script', get_stylesheet_directory_uri() .'/js/jquery.magnific-popup.min.js', array('jquery'),'', true);
 
 
@@ -112,36 +112,81 @@ function portfolio_taxonomy() {
 add_action( 'init', 'portfolio_taxonomy'); 
 
 
-
-
-
-
-
-
-
-
-
-
 //Shortcode 
 function portfolio_shortcodes( $atts, $content = null  ) {
 	extract( shortcode_atts( array(
 		'location' => '',
 	), $atts ) ); ob_start(); ?>
 	
-		<div class="featured_properties_area">
+		<div class="featured_properties_area ">
 			<div class="container">
-				<div class="row">
+				<div class="row mix_container">
 					
+					<?php
 
+				    $q = new WP_Query(
+				        array('posts_per_page' => -1, 'post_type' => 'portfolio')
+				        );        
+				         
+				 
+				//Portfolio taxanomy query
+				    global $paged;
+				    global $post;
+				    $args = array(    
+				        'post_type' => 'portfolio',
+				        'paged' => $paged,
+				        'posts_per_page' => -1,
+				    );
+				 
+				    $portfolio = new WP_Query($args);
+				    if(is_array($portfolio->posts) && !empty($portfolio->posts)) {
+				        foreach($portfolio->posts as $gallery_post) {
+				            $post_taxs = wp_get_post_terms($gallery_post->ID, 'portfolio-cat', array("fields" => "all"));
+				            if(is_array($post_taxs) && !empty($post_taxs)) {
+				                foreach($post_taxs as $post_tax) {
+				                    $portfolio_taxs[$post_tax->slug] = $post_tax->name;
+				                }
+				            }
+				        }
+				    }
+				?>        
+				
+				<div class="col-md-12">
 					
-					
-							<?php
-							global $post;
-							$args = array( 'posts_per_page' => -1, 'post_type'=> 'portfolio');
-							$myposts = get_posts( $args );
-							foreach( $myposts as $post ) : setup_postdata($post); ?>
-									
-							   <div class=" col-md-3">
+				
+			         <div class="controls">
+			            <button type="button" class="mix_button all_items" data-filter="all">All</button>
+			            <?php foreach($portfolio_taxs as $portfolio_tax_slug => $portfolio_tax_name): ?>
+			            	<button type="button"  class="mix_button individual_items" data-filter=".<?php echo $portfolio_tax_slug; ?>"><?php echo $portfolio_tax_name; ?></button>
+			            <?php endforeach; ?>
+			        </div>
+
+		    	</div>
+			
+    <?php
+     $i = 1;
+    while($q->have_posts()) : $q->the_post();
+    	
+        $idd = get_the_ID();
+        $term = get_field('portfolio_category');
+        //Get Texanmy class        
+        $item_classes = '';
+        $item_images =array();
+        $item_cats = get_the_terms($post->ID, 'portfolio-cat');
+        if($item_cats):
+        foreach($item_cats as $item_cat) {
+            $item_classes .= $item_cat->slug . ' ';
+            $item_images[] = get_field('image', $item_cat);
+        }
+        endif;
+    
+
+    ?>
+       
+
+			
+                <div class="mix col-md-3 <?php echo $item_classes; echo $i; ?>" >
+
 							   		<div class="short_view">
 								   		<?php the_post_thumbnail(); ?>
 										<?php the_title(); ?>							   			
@@ -150,8 +195,8 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 						
 									<div class="full_view">
 										<div class="description_part">
-											<?php the_post_thumbnail(); ?>
-											<?php the_content(); ?>
+											<?php //the_post_thumbnail(); ?>
+											<?php //the_content(); ?>
 										</div>
 
 										<div class="slider_area_part">
@@ -165,8 +210,9 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 								            	<?php
 
 								            		$gallery_id = $gallery->ID;
-								            		//print_r($gallery);
+								            		//print_r($gallery_id);
 								            		$featured_img_url = get_the_post_thumbnail_url($gallery_id,'full');
+								            		//print_r($featured_img_url);
 								            	?>
 
 
@@ -174,12 +220,12 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 
 
 											<!-- Button trigger modal -->
-											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-<?php echo $i; ?>">
 											  <img src="<?php echo $featured_img_url; ?>" alt="">
 											</button>
 
 											<!-- Modal -->
-											<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal fade" id="exampleModal-<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 											  <div class="modal-dialog" role="document">
 											    <div class="modal-content">
 											      <div class="modal-header">
@@ -191,8 +237,8 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 											      <div class="modal-body">
 
 
-
-													<div class="bxslider">
+													
+													<div class="bxslider-<?php echo $i; ?>">
 
 
 														<?php 
@@ -220,6 +266,9 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 
 
 													</div>
+
+
+
 											      </div>
 
 											    </div>
@@ -236,11 +285,28 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 									</div>
 
 
-							   </div>
-									
-							<?php endforeach; ?>
-					
-			
+
+
+                </div>
+
+
+
+				<script>
+
+					jQuery('#exampleModal-<?php echo $i; ?>').on('shown.bs.modal', function (e) {
+						
+						jQuery('.bxslider-<?php echo $i; ?>').bxSlider();
+
+					});
+
+
+
+				</script>
+
+
+
+				<?php  $i++; endwhile; ?>
+
 					
 					
 				</div>				
@@ -253,6 +319,16 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 return ob_get_clean();
 }	
 add_shortcode('portfolios', 'portfolio_shortcodes');
+
+
+
+
+
+
+
+
+
+
 
 
 
