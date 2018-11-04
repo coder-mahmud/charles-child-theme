@@ -1,7 +1,22 @@
 jQuery(document).ready(function($){
 
-				    var containerEl = document.querySelector('.mix_container');
-				    var mixer = mixitup(containerEl);
+	var containerEl = document.querySelector('.mix_container');
+	var mixer = mixitup(containerEl);
+
+	$('.individual_items').click(function(){
+		$('.full_view').show();
+		$('.short_view').hide();
+		$('.single_item').addClass('full_width');
+
+
+	})
+
+	$('.all_items').click(function(){
+		$('.full_view').hide();
+		$('.short_view').show();
+		$('.single_item').removeClass('full_width');
+
+	})
 
 
 

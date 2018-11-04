@@ -237,3 +237,8 @@ img{max-width: 100%; height:auto;}
 .bxslider > div{color:#000;}
 .slider_area_part, .full_view {overflow: hidden; display: block; clear:both;}
 
+.full_view{display: none;}
+.full_width{width: 100% !important;}
+.description_part{display: block; overflow: hidden; clear:both; margin-bottom: 20px;}
+.description_part img{float: left; margin-right: 20px;}
+.btn img{max-width: 250px;}

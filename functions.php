@@ -185,7 +185,7 @@ function portfolio_shortcodes( $atts, $content = null  ) {
        
 
 			
-                <div class="mix col-md-3 <?php echo $item_classes; echo $i; ?>" >
+                <div class="mix col-md-3 single_item <?php echo $item_classes; echo $i; ?>" >
 
 							   		<div class="short_view">
 								   		<?php the_post_thumbnail(); ?>
@@ -195,8 +195,8 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 						
 									<div class="full_view">
 										<div class="description_part">
-											<?php //the_post_thumbnail(); ?>
-											<?php //the_content(); ?>
+											<?php the_post_thumbnail('medium'); ?>
+											<?php the_content(); ?>
 										</div>
 
 										<div class="slider_area_part">
@@ -211,69 +211,94 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 
 								            		$gallery_id = $gallery->ID;
 								            		//print_r($gallery_id);
-								            		$featured_img_url = get_the_post_thumbnail_url($gallery_id,'full');
+								            		$featured_img_url = get_the_post_thumbnail_url($gallery_id,'thumbnail');
 								            		//print_r($featured_img_url);
+                                                    ?>
+
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-<?php echo $gallery_id; ?>">
+                                                  <img src="<?php echo $featured_img_url; ?>" alt="">
+                                                </button>                                                    
+
+
+
+                                                 <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal-<?php echo $gallery_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                  <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body">
+
+
+                                                        
+                                                        <div class="bxslider-<?php echo $gallery_id; ?>">
+
+
+                                                            <?php 
+                                                            if( get_field('gallery_images', $gallery_id) )
+                                                            {
+                                                               
+
+                                                                while( the_repeater_field('gallery_images', $gallery_id) )
+                                                                {
+                                                                ?>
+                                                                
+                                                                <div>
+
+                                                                    <img src="<?php echo  get_sub_field('image')['url']; ?>" alt="">
+                                                                </div>    
+                                                                   
+                                                               <?php  }
+
+                                                                
+                                                            }
+                                                            ?>
+
+
+
+                                                            <script>
+
+                                                                jQuery('#exampleModal-<?php echo $gallery_id; ?>').on('shown.bs.modal', function (e) {
+                                                                    
+                                                                    jQuery('.bxslider-<?php echo $gallery_id; ?>').bxSlider();
+
+                                                                });
+
+
+
+                                                            </script>
+
+
+
+                                                           <?php 
+
+                                                        ?>
+                                                    
+
+
+
+                                                        </div>
+
+
+
+                                                      </div>
+
+                                                    </div>
+                                                  </div>
+                                                </div> <!-- End Modal -->
+
+
+
+
+
+                                                <?php }
 								            	?>
 
 
-
-
-
-											<!-- Button trigger modal -->
-											<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-<?php echo $i; ?>">
-											  <img src="<?php echo $featured_img_url; ?>" alt="">
-											</button>
-
-											<!-- Modal -->
-											<div class="modal fade" id="exampleModal-<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-											  <div class="modal-dialog" role="document">
-											    <div class="modal-content">
-											      <div class="modal-header">
-											        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-											        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											          <span aria-hidden="true">&times;</span>
-											        </button>
-											      </div>
-											      <div class="modal-body">
-
-
-													
-													<div class="bxslider-<?php echo $i; ?>">
-
-
-														<?php 
-														if( get_field('gallery_images', $gallery_id) )
-														{
-														   
-
-														    while( the_repeater_field('gallery_images', $gallery_id) )
-														    {
-														    ?>
-														    
-														    <div>
-														    	<img src="<?php echo  get_sub_field('image')['url']; ?>" alt="">
-														    </div>    
-														       
-														   <?php  }
-
-														    
-														}
-									           
-
-									            	?>
-												
-									          		<?php } ?>
-
-
-													</div>
-
-
-
-											      </div>
-
-											    </div>
-											  </div>
-											</div>
+    	
 
 									
 
@@ -291,17 +316,7 @@ function portfolio_shortcodes( $atts, $content = null  ) {
 
 
 
-				<script>
 
-					jQuery('#exampleModal-<?php echo $i; ?>').on('shown.bs.modal', function (e) {
-						
-						jQuery('.bxslider-<?php echo $i; ?>').bxSlider();
-
-					});
-
-
-
-				</script>
 
 
 
